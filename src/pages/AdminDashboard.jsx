@@ -21,9 +21,10 @@ const ORDER_STATUSES = [
 const CATS = ['Rings', 'Necklaces', 'Bracelets', 'Earrings', 'Other'];
 const CUSTOM_TYPES = [
   { value: 'none',           label: 'بدون تخصيص' },
-  { value: 'eyes',           label: 'عيون — رفع صورة عيون' },
+  { value: 'eyes',           label: 'عيون — رفع صورة عيون+ تاريخ' },
   { value: 'photo_engraving',label: 'حفر صورة' },
-  { value: 'name_writing',    label: 'كتابة اسم' },
+  { value: 'name_writing',   label: 'كتابة الاسم' },
+  { value: 'package',        label: '📦 باقة — Package Customization' },
 ];
 
 export default function AdminDashboard() {
