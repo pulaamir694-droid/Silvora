@@ -35,6 +35,20 @@ export const updateOrderStatus = async (orderId, status) => {
   if (error) throw error;
 };
 
+const formatPackageCustomization = (pc) => {
+  if (!pc) return '';
+  let lines = '';
+  if (pc.walletName)    lines += `\n  👛 اسم المحفظة: ${pc.walletName}`;
+  if (pc.walletEyes)    lines += `\n  👁️ عيون داخل المحفظة: نعم`;
+  if (pc.walletEyesUrl) lines += `\n  صورة عيون المحفظة: ${pc.walletEyesUrl}`;
+  if (pc.mugName)       lines += `\n  ☕ اسم المج: ${pc.mugName}`;
+  if (pc.watchEyes)     lines += `\n  ⌚ عيون قفل الساعة: نعم`;
+  if (pc.watchEyesUrl)  lines += `\n  صورة عيون قفل الساعة: ${pc.watchEyesUrl}`;
+  if (pc.watchDate)     lines += `\n  📅 تاريخ قفل الساعة: ${pc.watchDateText}`;
+  if (pc.extraTotal > 0) lines += `\n  💰 إضافات التخصيص: +${pc.extraTotal} EGP`;
+  return lines;
+};
+
 export const sendWhatsAppOrder = (customerInfo, cartItems, total, shippingFee) => {
   const WHATSAPP_NUMBER = '201130479571';
 
@@ -47,6 +61,9 @@ export const sendWhatsAppOrder = (customerInfo, cartItems, total, shippingFee) =
       if (item.customization.imageUrl) {
         line += `\n  صورة التخصيص: ${item.customization.imageUrl}`;
       }
+    }
+    if (item.packageCustomization) {
+      line += formatPackageCustomization(item.packageCustomization);
     }
     return line;
   }).join('\n');
@@ -73,7 +90,6 @@ ${itemsList}
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
 };
 
-// إرسال تفاصيل الطلب كاملة إلى واتساب الإدارة/المندوب
 export const sendOrderToAdminWhatsApp = (order, adminWhatsappNumber) => {
   const customer = order.customer || {};
 
@@ -86,6 +102,9 @@ export const sendOrderToAdminWhatsApp = (order, adminWhatsappNumber) => {
       if (item.customization.imageUrl) {
         line += `\n  صورة التخصيص: ${item.customization.imageUrl}`;
       }
+    }
+    if (item.packageCustomization) {
+      line += formatPackageCustomization(item.packageCustomization);
     }
     return line;
   }).join('\n');
@@ -122,7 +141,6 @@ ${order.createdAt ? `🕒 *تاريخ الطلب:* ${new Date(order.createdAt).t
 
   window.open(`https://wa.me/${adminWhatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
 };
-
 
 export const deleteOrder = async (orderId) => {
   const { error } = await supabase.from('orders').delete().eq('id', orderId);
