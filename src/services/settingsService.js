@@ -15,6 +15,11 @@ const DEFAULT_SETTINGS = {
   depositMinAmount: 50,
   codDepositRequired: true,
   codDepositMessage: 'يسعدنا خدمتك! الدفع عند الاستلام متاح، لكن نحتاج مبلغ تأكيد (ديبوزيت) لتأكيد الطلب.',
+  pkg_wallet_name_price: 30,
+  pkg_wallet_eyes_price: 50,
+  pkg_mug_name_price:    30,
+  pkg_watch_eyes_price:  50,
+  pkg_watch_date_price:  30,
 };
 
 export const getSettings = async () => {
